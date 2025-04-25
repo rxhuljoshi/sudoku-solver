@@ -2,7 +2,6 @@ from sudoku_solver import solve_sudoku, print_board
 from optimized_solver import solve_optimized
 import time
 import copy
-import sudoku
 
 def parse_board_input():
     # Get a 9x9 Sudoku board from user input, validating each row
@@ -24,54 +23,7 @@ def parse_board_input():
     return board
 
 def load_example():
-    # Use the sudoku library to generate puzzles based on difficulty
-    try:
-        # Attempt to use the 'sudoku' library to generate puzzles
-        pass  # Replace this with actual logic if needed
-    except ImportError:
-        # Handle the case where the 'py-sudoku' package is not installed
-        print("The 'py-sudoku' package is required. Install it with: pip install py-sudoku")
-        print("Falling back to predefined examples...")
-        return load_predefined_example()
-    
-    print("Select difficulty level:")
-    print("1. Easy")
-    print("2. Medium")
-    print("3. Hard")
-    
-    # Get user choice and generate a puzzle with corresponding difficulty
-    while True:
-        choice = input("Enter choice (1/2/3): ")
-        if choice == "1":
-            # Generate an easy puzzle
-            puzzle = sudoku.generate(difficulty=0.3)
-            return convert_puzzle_format(puzzle)
-        elif choice == "2":
-            # Generate a medium puzzle
-            puzzle = sudoku.generate(difficulty=0.5)
-            return convert_puzzle_format(puzzle)
-        elif choice == "3":
-            # Generate a hard puzzle
-            puzzle = sudoku.generate(difficulty=0.7)
-            return convert_puzzle_format(puzzle)
-        else:
-            print("Invalid choice. Try again.")
-
-def convert_puzzle_format(puzzle):
-    # Convert puzzle from sudoku library format to our expected format
-    result = []
-    for row in puzzle.board:
-        new_row = []
-        for cell in row:
-            if cell == 0:  # Empty cells are typically represented as 0
-                new_row.append(".")
-            else:
-                new_row.append(str(cell))
-        result.append(new_row)
-    return result
-
-def load_predefined_example():
-    # Fallback function with predefined examples
+    # Predefined examples for easy, medium, and hard puzzles
     examples = {
         "easy": [
             ["5", "3", ".", ".", "7", ".", ".", ".", "."],
@@ -110,6 +62,11 @@ def load_predefined_example():
     
     # Get user choice and return the corresponding puzzle
     while True:
+        print("\nSelect difficulty level:")
+        print("1. Easy")
+        print("2. Medium")
+        print("3. Hard")
+        
         choice = input("Enter choice (1/2/3): ")
         if choice == "1":
             return examples["easy"]
@@ -180,4 +137,4 @@ def main():
         print("\nNo solution exists!")
 
 if __name__ == "__main__":
-    main() 
+    main()
