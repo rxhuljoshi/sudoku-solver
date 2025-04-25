@@ -111,25 +111,31 @@ def solve_puzzle(grid, solver_option):
 def is_valid_grid(grid):
     return len(grid) == 9 and all(len(row) == 9 for row in grid)
 
-def display_solution(solution, disabled=True):
+def display_solution(solution):
+    st.write("Solved Sudoku:")
     for i in range(9):
+        # Add vertical spacing between 3x3 subgrids
         if i > 0 and i % 3 == 0:
-            st.write("")
-        cols = st.columns(12, gap="small")
+            st.write("")  # Add a blank line for spacing
+
+        cols = st.columns(12, gap="small")  # Adjust to accommodate extra spacing columns
         col_index = 0
         for j in range(9):
+            # Add horizontal spacing between 3x3 subgrids
             if j > 0 and j % 3 == 0:
-                col_index += 1
-            # Ensure unique key using the row and column indices, and add randomness
-            key = f"sol_cell_{i}_{j}_{st.session_state.get('unique_key', 0)}"
+                col_index += 1  # Skip a column for spacing
+
+            # Display each cell in the grid with a unique key based on row and column
+            cell_key = f"sol_cell_{i}_{j}"  # Ensure unique key per cell
             cols[col_index].text_input(
                 "",
                 value=str(solution[i][j]) if solution[i][j] != 0 else "",
                 max_chars=1,
-                key=key,  # Ensures unique key for each input
+                key=cell_key,  # Use a unique key for each text_input
                 label_visibility="collapsed",
-                disabled=disabled
+                disabled=True
             )
             col_index += 1
+            
 if __name__ == "__main__":
     main()
