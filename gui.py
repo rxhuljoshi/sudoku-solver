@@ -54,8 +54,28 @@ def solve_sudoku(grid):
 
 def display_solution(solution):
     st.write("Solved Sudoku:")
-    for row in solution:
-        st.write(" ".join(str(num) if num != 0 else "." for num in row))
+    for i in range(9):
+        # Add vertical spacing between 3x3 subgrids
+        if i > 0 and i % 3 == 0:
+            st.write("")  # Add a blank line for spacing
+
+        cols = st.columns(12, gap="small")  # Adjust to accommodate extra spacing columns
+        col_index = 0
+        for j in range(9):
+            # Add horizontal spacing between 3x3 subgrids
+            if j > 0 and j % 3 == 0:
+                col_index += 1  # Skip a column for spacing
+
+            # Display each cell in the grid
+            cols[col_index].text_input(
+                "",
+                value=str(solution[i][j]) if solution[i][j] != 0 else "",
+                max_chars=1,
+                key=f"sol_cell_{i}_{j}",
+                label_visibility="collapsed",
+                disabled=True
+            )
+            col_index += 1
 
 if __name__ == "__main__":
     main()
