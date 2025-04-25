@@ -101,34 +101,6 @@ def main():
         else:
             st.error("⚠️ Invalid grid. Must be 9x9 with numbers 0–9.")
 
-    st.markdown("---")
-    st.subheader("📟 CLI-like Sudoku Solver")
-
-    cli_input = st.text_area(
-        "Paste the Sudoku grid (comma-separated rows, 0 = empty):",
-        placeholder="Example:\n530070000,600195000,098000060,..."
-    )
-
-    if st.button("Solve CLI Sudoku"):
-        try:
-            cli_grid = [
-                [int(num) for num in row.strip().split(",")]
-                for row in cli_input.splitlines()
-                if row.strip()
-            ]
-            if is_valid_grid(cli_grid):
-                solution = solve_puzzle(cli_grid, solver_option)
-                if solution:
-                    st.success("✅ CLI Sudoku Solved!")
-                    for row in solution:
-                        st.text(" ".join(map(str, row)))
-                else:
-                    st.error("❌ No solution found.")
-            else:
-                st.error("⚠️ Grid must be 9 rows of 9 values each.")
-        except Exception as e:
-            st.error(f"Parsing Error: {e}")
-
 def solve_puzzle(grid, solver_option):
     board = copy.deepcopy(grid)
     if solver_option == "Backtracking Solver":
@@ -152,7 +124,7 @@ def display_solution(solution, disabled=True):
                 "",
                 value=str(solution[i][j]) if solution[i][j] != 0 else "",
                 max_chars=1,
-                key=f"sol_cell_{i}_{j}",
+                key=f"sol_cell_{i}_{j}_{st.session_state.get('unique_key', 0)}",  # Add a unique identifier
                 label_visibility="collapsed",
                 disabled=disabled
             )
