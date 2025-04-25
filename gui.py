@@ -120,15 +120,16 @@ def display_solution(solution, disabled=True):
         for j in range(9):
             if j > 0 and j % 3 == 0:
                 col_index += 1
+            # Ensure unique key using the row and column indices, and add randomness
+            key = f"sol_cell_{i}_{j}_{st.session_state.get('unique_key', 0)}"
             cols[col_index].text_input(
                 "",
                 value=str(solution[i][j]) if solution[i][j] != 0 else "",
                 max_chars=1,
-                key=f"sol_cell_{i}_{j}_{st.session_state.get('unique_key', 0)}",  # Add a unique identifier
+                key=key,  # Ensures unique key for each input
                 label_visibility="collapsed",
                 disabled=disabled
             )
             col_index += 1
-
 if __name__ == "__main__":
     main()
